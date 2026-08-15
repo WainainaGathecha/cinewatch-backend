@@ -2,6 +2,7 @@ import express from 'express';
 import { PrismaClient } from '@prisma/client';
 import { createClient } from '@libsql/client';
 import { PrismaLibSql } from '@prisma/adapter-libsql';
+import path from 'path';
 
 
 const app = express();
@@ -33,6 +34,9 @@ app.get('/api/movies', async (req, res) => {
         const movies = await prisma.movie.findMany();
         res.json(movies);
     } catch (error) {
+        console.error("Database access error");
+        console.error(error);
+
         res.status(500).json({error: "could not fetch movies from database"});
     }
 });
